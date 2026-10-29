@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UNTIL WE MEET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050711;--bg2:#0B1020;--tx:#E8EAF4;--mu:#929BB5;--gl:#8EAFFF;--ac:#B9A7E8;--serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font:300 16px/1.6 var(--sans)}
+body{background:radial-gradient(70% 50% at 20% 15%,rgba(90,110,200,.16),transparent 70%),radial-gradient(60% 50% at 85% 85%,rgba(130,100,200,.13),transparent 70%),linear-gradient(var(--bg),var(--bg2))}
+#sky,#tint{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#tint{background:radial-gradient(circle at 50% 40%,var(--tc,rgba(142,175,255,.2)),transparent 65%);opacity:0;transition:opacity 1.6s}
+body.lit #tint,body.sec #tint{opacity:1}
+body.sec{--tc:rgba(185,167,232,.28)}
+#app{position:fixed;inset:0}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 12px) calc(env(safe-area-inset-right,0px) + 20px) calc(env(safe-area-inset-bottom,0px) + 16px) calc(env(safe-area-inset-left,0px) + 20px);animation:in 1.2s ease both}
+.c{margin:auto 0;width:100%;max-width:560px;text-align:center;padding:16px 0}
+@keyframes in{from{opacity:0}}
+@keyframes pulse{50%{transform:scale(1.14);opacity:.8}}
+@keyframes unfold{from{opacity:0;transform:scaleY(.15)}}
+@keyframes rise{from{transform:translateY(40px);opacity:0}}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--gl);outline-offset:4px;border-radius:8px}
+.top{width:100%;max-width:720px;min-height:48px;display:flex;align-items:center;justify-content:center;flex:none}
+.brand{font:300 12px var(--sans);letter-spacing:.5em;color:var(--mu)}
+.back{align-self:flex-start;min-height:44px;padding:0 8px 0 0;color:var(--mu);font-size:14px}
+.top:has(.back){justify-content:flex-start}
+.t{font:300 clamp(34px,10vw,66px)/1.1 var(--serif);letter-spacing:.16em;margin-bottom:20px}
+.q{font:italic 300 clamp(19px,5vw,25px)/1.6 var(--serif);white-space:pre-line}
+.h{font:300 clamp(28px,7.5vw,42px)/1.2 var(--serif);letter-spacing:.06em;margin-bottom:26px}
+.note{color:var(--mu);font-size:13px;margin-top:12px;line-height:1.5}
+.lnk{min-height:44px;margin-top:30px;padding:10px 2px;font-size:15px;letter-spacing:.14em;color:var(--gl);border-bottom:1px solid rgba(142,175,255,.4)}
+.lnk.sm{font-size:13px;color:var(--mu);border:0;margin-top:14px}
+.skip{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);min-height:44px;color:var(--mu);font-size:13px}
+.core{display:block;margin:0 auto 34px;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle,#fff 0 3px,var(--gl) 4px,rgba(142,175,255,.3) 10px,transparent 24px);animation:pulse 4.5s ease-in-out infinite;transition:transform 1.1s cubic-bezier(.6,0,.9,.4),opacity 1.1s}
+.dive .core{transform:scale(90);opacity:0}
+.dive .c>*:not(.core){opacity:0;transition:opacity .5s}
+.d1{animation:in 1.8s 1.2s both}.d2{animation:in 1.8s 2.8s both}.d3{animation:in 1.8s 4.2s both}
+.pair{display:flex;align-items:flex-start;max-width:420px;margin:0 auto 18px}
+.pt{width:96px;display:flex;flex-direction:column;align-items:center;font-size:13px;color:var(--mu);padding:0;min-height:44px}
+.pt i{width:14px;height:14px;border-radius:50%;background:var(--tx);box-shadow:0 0 18px 4px rgba(142,175,255,.5);margin:15px 0 8px;transition:box-shadow .6s}
+.pt.on i{box-shadow:0 0 32px 12px rgba(142,175,255,.9)}
+.ln{flex:1;height:44px;min-width:40px;position:relative}
+.ln::before{content:"";position:absolute;left:0;right:0;top:21px;height:1px;background:linear-gradient(90deg,var(--gl),var(--ac));opacity:.45;transition:.8s}
+.ln.on::before{opacity:1;height:2px;top:20px;box-shadow:0 0 16px 3px rgba(142,175,255,.7)}
+.msg{min-height:84px;font:italic 300 clamp(18px,4.6vw,22px)/1.55 var(--serif);white-space:pre-line}
+.here{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;border:1px solid rgba(142,175,255,.25);border-radius:999px;font-size:14px;letter-spacing:.1em;color:var(--mu);transition:.5s}
+.here i{width:8px;height:8px;border-radius:50%;background:var(--mu);transition:.6s}
+.here.on{color:var(--tx);border-color:var(--gl)}
+.here.on i{background:#fff;box-shadow:0 0 14px 4px var(--gl)}
+nav{width:100%;max-width:560px;flex:none;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(142,175,255,.14);border:1px solid rgba(142,175,255,.14);border-radius:16px;overflow:hidden}
+nav button{background:rgba(11,16,32,.72);min-height:56px;padding:8px 12px;font-size:14px;letter-spacing:.05em;transition:background .4s}
+nav button:hover{background:rgba(142,175,255,.12)}
+.sec{position:absolute;top:calc(env(safe-area-inset-top,0px) + 76px);right:14%;width:44px;height:44px;opacity:.55;background:radial-gradient(circle,#E8EAF4 0 1.4px,transparent 2.2px)}
+.part{margin-bottom:20px;opacity:.6;font:300 clamp(19px,5vw,24px)/1.65 var(--serif)}
+.part.new{opacity:1;animation:in 1.1s both}
+.part.last{opacity:1;text-shadow:0 0 26px rgba(142,175,255,.55)}
+.grid{display:grid;gap:12px;text-align:left}
+.env{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:64px;padding:14px 18px;border:1px solid rgba(142,175,255,.22);border-radius:14px;background:linear-gradient(135deg,rgba(142,175,255,.08),rgba(185,167,232,.03));font:italic 300 20px var(--serif);text-align:left;transition:border-color .4s}
+.env:hover{border-color:var(--gl)}
+.env small{font:300 11px var(--sans);letter-spacing:.12em;color:var(--mu);flex:none}
+.letter{border:1px solid rgba(142,175,255,.25);border-radius:6px;padding:28px 24px;background:rgba(11,16,32,.74);text-align:left;white-space:pre-line;font:300 clamp(18px,4.6vw,21px)/1.8 var(--serif);animation:unfold 1.1s ease both;transform-origin:top}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 30px}
+.cd b{display:block;font:300 clamp(34px,11.5vw,70px)/1.05 var(--serif);font-variant-numeric:tabular-nums}
+.cd span{font-size:11px;letter-spacing:.14em;color:var(--mu)}
+.seal{width:132px;height:132px;margin:8px auto 14px;border:1px solid rgba(185,167,232,.5);border-radius:50%;display:grid;place-items:center;font:italic 300 18px var(--serif);background:radial-gradient(circle,rgba(185,167,232,.18),transparent 70%);animation:pulse 5s ease-in-out infinite}
+.cap{animation:unfold 1.1s ease both;transform-origin:top;text-align:left}
+.cap .when{color:var(--mu);font-size:13px;text-align:center;margin-bottom:16px}
+.cap .txt{white-space:pre-line;font:300 clamp(18px,4.6vw,22px)/1.75 var(--serif);margin-bottom:28px}
+.cap label{display:block;font-size:13px;color:var(--mu);margin-bottom:8px}
+textarea{width:100%;min-height:110px;background:rgba(11,16,32,.8);border:1px solid rgba(142,175,255,.25);border-radius:10px;color:var(--tx);font:300 16px/1.5 var(--sans);padding:12px;resize:vertical}
+.rise{animation:rise 3s ease both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div id="tint" aria-hidden="true"></div>
+<main id="app"></main>
+<script>
+/* ============ КОНФИГУРАЦИЯ — меняй только этот блок ============ */
+const C = {
+  title: "UNTIL WE MEET",
+  author: "Автор",          // имя автора
+  recipient: "Ты",          // имя получателя
+  cities: { a: "Тверь", b: "Рязань" },   // два города
+  meetDate: null,           // дата встречи, напр.: "2026-12-20T18:00:00+03:00" (с часовым поясом). null = дата не задана
+  dots: {
+    a: "Это я. Далеко, но не исчез.",
+    b: "Это ты. Самый тёплый свет в этом небе."
+  },
+  line: "Между нами есть расстояние.\nНо есть и всё то, что оно не может изменить.",
+  confession: {
+    intro: "Я хотел оставить тебе кое-что.\nНе просто слова.\nЧто-то, к чему можно вернуться.",
+    parts: [   // добавляй, удаляй и переписывай части — компоненты менять не нужно
+      "Расстояние — это факт. Но оно не решает, что для меня важно.",
+      "Я не умею говорить об этом громко. Поэтому сделал это место — тихое, только для тебя.",
+      "Ты стала для меня тем местом, куда мысли возвращаются сами. Не по привычке, а по выбору.",
+      "Я люблю тебя. Просто и без громких слов. И хочу, чтобы тебе всегда было куда вернуться и перечитать это — в те дни, когда расстояние кажется больше, чем оно есть."
+    ]
+  },
+  openWhen: [   // id должен быть уникальным и не меняться, пока человек уже открывал письма
+    { id: "miss", title: "Открой, когда скучаешь", text: "Я знаю, что сейчас тихо и слишком далеко. Скучать — не слабость, это значит, что между нами что-то настоящее.\n\nСделай глоток воды и выдохни. Я думаю о тебе.\n\nКогда увидимся, расскажешь, какой была эта неделя. Я хочу знать всё, даже мелочи." },
+    { id: "sad", title: "Открой, когда тебе грустно", text: "Сейчас не нужно быть сильной. Можно просто посидеть с этим.\n\nЯ не прошу улыбаться. Я прошу помнить: ты не одна, даже если до меня километры.\n\nНапиши мне, если захочешь. Даже одно слово — я отвечу." },
+    { id: "sleep", title: "Открой, когда не можешь уснуть", text: "Выключи свет, если получится. Один медленный вдох и такой же выдох.\n\nМысли никуда не убегут, они подождут до утра. Я рядом настолько, насколько это возможно отсюда.\n\nСпокойной ночи.\n\nА завтра будет новый день, и он на шаг ближе к нашей встрече." },
+    { id: "near", title: "Открой, когда хочешь почувствовать, что я рядом", text: "Закрой глаза на минуту. Представь, что я сижу рядом и ничего не говорю — просто рядом.\n\nИменно это я и хочу тебе дать этим сообщением.\n\nТверь и Рязань — всего лишь точки на карте. А между ними есть линия, которая никуда не исчезает." },
+    { id: "future", title: "Открой, когда соскучилась по нашему будущему", text: "Всё, о чём мы пока только говорим, однажды станет обычным днём. Я жду этих обычных дней больше, чем больших событий.\n\nА пока береги себя. Я хочу встретить это будущее вместе с тобой." }
+  ],
+  secret: "Ты нашла это место.\n\nЗначит, ты из тех, кто смотрит внимательно и не проходит мимо тихих огоньков. Мне это в тебе очень дорого.\n\nСпасибо, что ты есть.",
+  capsule: {
+    created: "2026-10-30",  // дата создания капсулы
+    text: "Если ты читаешь это, значит, время прошло, а мы всё так же идём к одному и тому же.\n\nЯ оставляю это письмо будущему нам. Надеюсь, к тому моменту расстояние станет просто воспоминанием, а мы будем смеяться над тем, как скучали.\n\nЧто бы ни случилось за это время, я рад, что уже сегодня мы были вместе — пусть и на расстоянии.",
+    noteEnabled: true
+  },
+  ui: {
+    tagline: "Некоторые расстояния измеряются километрами.\nДругие — временем до следующей встречи.",
+    enter: "Войти в наше маленькое пространство",
+    skip: "Пропустить", back: "Назад",
+    nav: [["sky", "Наше небо"], ["open", "Открой, когда…"], ["count", "До встречи"], ["future", "Для нашего будущего"]],
+    hereLabel: "Я здесь",
+    countTitle: "До встречи",
+    noDate: "День, которого мы ждём, ещё впереди.",
+    badDate: "Дата встречи записана в настройках неверно.",
+    arrived: "Это время пришло.\nМы рядом.",
+    countSign: "Каждая секунда приближает нас к моменту, когда расстояние перестанет быть частью нашей истории."
+  }
+};
+/* ================= конец конфигурации ================= */
+
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RM=matchMedia("(prefers-reduced-motion: reduce)");
+const fmt=(t,o)=>new Intl.DateTimeFormat("ru",o).format(new Date(t));
+
+/* локальное хранилище с обработкой ошибок */
+const S={ok:true,
+  get(k,d){try{const v=localStorage.getItem("uwm:"+k);return v===null?d:JSON.parse(v)}catch(_){S.ok=false;return d}},
+  set(k,v){try{localStorage.setItem("uwm:"+k,JSON.stringify(v));return true}catch(_){S.ok=false;return false}}};
+S.set("probe",1);
+
+/* звёздное небо: один цикл анимации */
+const cv=$("#sky"),cx=cv.getContext("2d");
+let W,H,stars=[],energy=0,hue="#8EAFFF",px=0,py=0,raf=0,timers=[];
+const later=(f,t)=>{const id=setTimeout(f,t);timers.push(id);return id};
+function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);
+  const n=Math.round(Math.min(220,W*H/6500)*((navigator.hardwareConcurrency||8)<=4?.6:1));
+  stars=Array.from({length:n},()=>({x:Math.random(),y:Math.random(),z:Math.random(),p:Math.random()*6.28}));draw(0)}
+function draw(t){cx.clearRect(0,0,W,H);const rm=RM.matches;
+  for(const s of stars){const tw=rm?1:.7+.3*Math.sin(t/1400*(.5+s.z)+s.p);
+    cx.globalAlpha=Math.min(1,(.25+.6*s.z)*tw*(1+energy*.8));cx.fillStyle=s.z>.85?hue:"#E8EAF4";
+    const x=((s.x*W+(rm?0:t*.002*(s.z+.2))+px*s.z*14)%W+W)%W,y=s.y*H+py*s.z*14;
+    cx.beginPath();cx.arc(x,y,.4+s.z*1.1*(1+energy*.3),0,6.283);cx.fill()}}
+function loop(t){energy*=.995;draw(t);raf=requestAnimationFrame(loop)}
+function start(){cancelAnimationFrame(raf);if(!RM.matches&&!document.hidden)raf=requestAnimationFrame(loop)}
+function boost(v){energy=Math.max(energy,v);if(RM.matches){draw(0);setTimeout(()=>{energy=0;draw(0)},3000)}}
+addEventListener("resize",size);
+addEventListener("pointermove",ev=>{px=ev.clientX/W-.5;py=ev.clientY/H-.5});
+document.addEventListener("visibilitychange",start);
+RM.addEventListener?.("change",()=>{start();draw(0)});
+
+/* сцены */
+const app=$("#app");
+function view(html,back){const s=document.createElement("div");s.className="sc";s.innerHTML=html;app.replaceChildren(s);
+  const b=$("#bk");if(b)b.onclick=()=>go(back||"main");return s}
+const backBtn=()=>`<header class="top"><button class="back" id="bk">← ${e(C.ui.back)}</button></header>`;
+
+const SC={
+intro(){let done=false;
+  view(`<div class="c"><button class="core" id="core" aria-label="${e(C.ui.enter)}"></button><h1 class="t d1">${e(C.title)}</h1><p class="q d2">${e(C.ui.tagline)}</p><button class="lnk d3" id="enter">${e(C.ui.enter)}</button></div><button class="skip" id="skip">${e(C.ui.skip)}</button>`);
+  const dive=()=>{if(done)return;done=true;boost(2.5);$(".sc").classList.add("dive");later(()=>go("main"),RM.matches?0:1100)};
+  $("#core").onclick=$("#enter").onclick=dive;$("#skip").onclick=()=>go("main")},
+
+main(){let here=S.get("here",null),taps=0,tt;
+  const pt=w=>`<button class="pt" data-w="${w}" aria-label="${e(C.cities[w])}"><i></i><span>${e(C.cities[w])}</span></button>`;
+  view(`<header class="top"><span class="brand">${e(C.title)}</span></header>
+  <div class="c"><div class="pair">${pt("a")}<button class="ln" id="ln" aria-label="Световая линия между нами"></button>${pt("b")}</div>
+  <p class="msg" id="msg" aria-live="polite"></p>
+  <button class="here" id="here"><i></i>${e(C.ui.hereLabel)}</button><p class="note" id="hn" aria-live="polite"></p></div>
+  <nav aria-label="Разделы">${C.ui.nav.map(([k,l])=>`<button data-k="${k}">${e(l)}</button>`).join("")}</nav>
+  <button class="sec" id="sec" aria-label="Далёкая звезда"></button>`);
+  const msg=t=>{$("#msg").textContent=t};
+  $$(".pt").forEach(b=>b.onclick=()=>{$$(".pt").forEach(x=>x.classList.toggle("on",x===b));$("#ln").classList.remove("on");msg(C.dots[b.dataset.w]);boost(.5)});
+  $("#ln").onclick=()=>{$$(".pt").forEach(x=>x.classList.add("on"));$("#ln").classList.add("on");msg(C.line);boost(1.2)};
+  const paint=()=>{const b=$("#here");b.classList.toggle("on",!!here);b.setAttribute("aria-pressed",!!here);
+    $("#hn").textContent=(here?`Знак зажжён: ${fmt(here.t,{dateStyle:"medium",timeStyle:"short"})}. `:"Нажми, чтобы зажечь знак. ")+"Это отметка только на этом устройстве, второй человек её не увидит."+(S.ok?"":" Память браузера недоступна — после перезагрузки отметка пропадёт.")};
+  $("#here").onclick=()=>{here=here?null:{t:new Date().toISOString()};S.set("here",here);boost(.8);paint()};paint();
+  $$("nav button").forEach(b=>b.onclick=()=>go({sky:"conf",open:"ow",count:"cd",future:"fut"}[b.dataset.k]));
+  $("#sec").onclick=()=>{clearTimeout(tt);boost(.4);if(++taps>=3){S.set("secret",true);go("secret")}else tt=setTimeout(()=>taps=0,2500)}},
+
+conf(){const P=C.confession.parts;let n=Math.min(S.get("conf",0),P.length);
+  view(`${backBtn()}<div class="c"><p class="q" id="ci"></p><div id="cl"></div><button class="core" id="cs" aria-label="Раскрыть следующую часть"></button><p class="note" id="ch" aria-live="polite"></p><button class="lnk sm" id="cr">Начать сначала</button></div>`);
+  const paint=()=>{$("#ci").textContent=n?"":C.confession.intro;$("#ci").hidden=!!n;
+    $("#cl").innerHTML=P.slice(0,n).map((p,i)=>`<p class="part${i===n-1?" new":""}${i===P.length-1?" last":""}">${e(p)}</p>`).join("");
+    const d=n>=P.length;$("#cs").hidden=d;$("#cr").hidden=!n;$("#ch").textContent=d?"":(n?"Нажми ещё раз.":"Нажми на звезду.");
+    $(".part.new")?.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"center"})};
+  $("#cs").onclick=()=>{if(n<P.length){n++;S.set("conf",n);paint();if(n===P.length)boost(3)}};
+  $("#cr").onclick=()=>{n=0;S.set("conf",0);paint()};paint()},
+
+ow(){const O=S.get("open",{});
+  view(`${backBtn()}<div class="c"><h2 class="h">Открой, когда…</h2><div class="grid">${C.openWhen.map(m=>`<button class="env" data-id="${e(m.id)}"><span>${e(m.title)}</span><small>${O[m.id]?"открыто":"закрыто"}</small></button>`).join("")}</div></div>`);
+  $$(".env").forEach(b=>b.onclick=()=>go("letter",b.dataset.id))},
+
+letter(id){const m=C.openWhen.find(x=>x.id===id);if(!m)return go("ow");
+  const O=S.get("open",{});O[id]=1;S.set("open",O);boost(.6);
+  view(`${backBtn()}<div class="c"><h2 class="h">${e(m.title)}</h2><div class="letter">${e(m.text)}</div></div>`,"ow")},
+
+cd(){const t=C.meetDate?Date.parse(C.meetDate):NaN,has=!!C.meetDate,ok=!isNaN(t);
+  view(`${backBtn()}<div class="c"><h2 class="h">${e(C.ui.countTitle)}</h2><div id="cb" role="timer"></div><p class="q" style="font-size:clamp(16px,4vw,19px);color:var(--mu)">${e(C.ui.countSign)}</p></div>`);
+  const tick=()=>{const b=$("#cb");if(!ok){b.innerHTML=`<p class="q" style="margin-bottom:30px">${e(C.ui.noDate)}</p>${has?`<p class="note">${e(C.ui.badDate)}</p>`:""}`;return}
+    const d=t-Date.now();if(d<=0){b.innerHTML=`<p class="q" style="margin-bottom:30px;font-size:clamp(24px,6vw,34px)">${e(C.ui.arrived)}</p>`;return}
+    const s=Math.floor(d/1e3),p=v=>String(v).padStart(2,"0");
+    b.innerHTML=`<div class="cd">${[[Math.floor(s/86400),"дни"],[p(Math.floor(s%86400/3600)),"часы"],[p(Math.floor(s%3600/60)),"минуты"],[p(s%60),"секунды"]].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>`};
+  tick();if(ok)timers.push(setInterval(tick,1000))},
+
+fut(){const K=C.capsule;let open=S.get("cap",false);
+  view(`${backBtn()}<div class="c"><h2 class="h">Для нашего будущего</h2><div id="cp"></div></div>`);
+  const paint=()=>{const box=$("#cp");
+    if(!open){box.innerHTML=`<button class="seal" id="so" aria-label="Открыть капсулу времени">Открыть</button><p class="note">Послание, оставленное для будущего.</p>`;$("#so").onclick=()=>{open=true;S.set("cap",true);boost(1.2);paint()};return}
+    const d=K.created&&!isNaN(Date.parse(K.created))?`<p class="when">Оставлено: ${fmt(K.created,{dateStyle:"long"})}</p>`:"";
+    box.innerHTML=`<div class="cap">${d}<div class="txt">${e(K.text)}</div>${K.noteEnabled?`<label for="nt">Твоя заметка</label><textarea id="nt" maxlength="2000"></textarea><button class="lnk" id="ns" style="margin-top:12px">Сохранить на этом устройстве</button><p class="note" id="nm" aria-live="polite">Заметка хранится только в этом браузере. Автор её не увидит и между устройствами она не переносится.</p>`:""}</div>`;
+    if(K.noteEnabled){$("#nt").value=S.get("note","");$("#ns").onclick=()=>{$("#nm").textContent=S.set("note",$("#nt").value)?"Сохранено на этом устройстве. Автор её не увидит.":"Не удалось сохранить: память браузера недоступна (например, приватный режим)."}}};
+  paint()},
+
+secret(){boost(2);view(`${backBtn()}<div class="c rise"><div class="core"></div><div class="letter" style="animation:none">${e(C.secret)}</div></div>`)}
+};
+function go(n,a){timers.forEach(id=>{clearTimeout(id);clearInterval(id)});timers=[];
+  document.body.classList.toggle("lit",n==="letter");document.body.classList.toggle("sec",n==="secret");
+  hue=n==="secret"?"#B9A7E8":"#8EAFFF";SC[n](a);if(RM.matches)draw(0);$(".sc").scrollTop=0}
+
+size();start();go("intro");
+</script>
+</body>
+</html>
